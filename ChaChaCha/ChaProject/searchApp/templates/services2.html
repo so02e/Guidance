@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block headcontent %}
-<title>내 주변 시험장</title>
+<title>내 주변 학원</title>
 {% endblock %}
 
 {% block content %}
@@ -32,7 +32,7 @@
   <div class="row">
     <div class="col-xs-12 col-md-6">
         <p style="margin-top:-12px">
-            <b>별표를 클릭하시면 학원과 코스 정보가 표시됩니다.</b>
+            <b>학원 정보가 표시됩니다.</b>
         </p>
         <div id="map" style="width:600px;height:900px;"></div>
     </div>
@@ -45,15 +45,11 @@
                 <tr><td width="5%">2종 가격</td><td id = 'fee2' class = 'fontsize'></td></tr>
                 <tr><td width="25%">홈페이지</td><td id = 'url' class = 'fontsize'></td></tr>
                 <tr><td width="25%">전화번호</td><td id = 'phone_number' class = 'fontsize'></td></tr>
-
             </table>
-
   </div>
-
   </div>
 
 </main>
-
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1cc2187c8717ffab77eb12ceab5806ae&libraries=services"></script>
 <script>
@@ -134,14 +130,16 @@ function makeOverListener(map, marker, infowindow) {
 }
 
 // 가격 전화번호 추가해야 함
-function clickevent(name, address, url) {
+function clickevent(name, address, fee1, fee2, url, phone_number) {
     return function(){
         document.getElementById('name').innerText = name
         document.getElementById('location').innerText = address
+        document.getElementById('fee1').innerText = fee1
+        document.getElementById('fee2').innerText = fee2
         document.getElementById('url').innerHTML = `<a href = '${url}' target='_blank'> 홈페이지 이동 </a>`
+        document.getElementById('phone_number').innerText = phone_number
         };
     }
-
 
 // 인포윈도우를 닫는 클로저를 만드는 함수입니다
 function makeOutListener(infowindow) {
@@ -149,7 +147,6 @@ function makeOutListener(infowindow) {
         infowindow.close();
     };
 }
-
 
     // 지도에 마커와 인포윈도우를 표시하는 함수입니다
     function displayMarker(locPosition, message) {
