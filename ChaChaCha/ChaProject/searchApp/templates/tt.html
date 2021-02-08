@@ -20,64 +20,64 @@
 </main>
 
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1cc2187c8717ffab77eb12ceab5806ae"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1cc2187c8717ffab77eb12ceab5806ae&libraries=services"></script>
 <script>
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-        mapOption = {
-            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-            level: 10 // 지도의 확대 레벨
-        };
+    mapOption = {
+        center: new kakao.maps.LatLng(37.502, 127.026581), // 지도의 중심좌표
+        level: 4 // 지도의 확대 레벨
+    };
 
-    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-    // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
-    if (navigator.geolocation) {
+// 커스텀 오버레이에 표시할 내용입니다
+// HTML 문자열 또는 Dom Element 입니다
+var content = '<div class="overlaybox">' +
+    '    <div class="boxtitle">금주 영화순위</div>' +
+    '    <div class="first">' +
+    '        <div class="triangle text">1</div>' +
+    '        <div class="movietitle text">드래곤 길들이기2</div>' +
+    '    </div>' +
+    '    <ul>' +
+    '        <li class="up">' +
+    '            <span class="number">2</span>' +
+    '            <span class="title">명량</span>' +
+    '            <span class="arrow up"></span>' +
+    '            <span class="count">2</span>' +
+    '        </li>' +
+    '        <li>' +
+    '            <span class="number">3</span>' +
+    '            <span class="title">해적(바다로 간 산적)</span>' +
+    '            <span class="arrow up"></span>' +
+    '            <span class="count">6</span>' +
+    '        </li>' +
+    '        <li>' +
+    '            <span class="number">4</span>' +
+    '            <span class="title">해무</span>' +
+    '            <span class="arrow up"></span>' +
+    '            <span class="count">3</span>' +
+    '        </li>' +
+    '        <li>' +
+    '            <span class="number">5</span>' +
+    '            <span class="title">안녕, 헤이즐</span>' +
+    '            <span class="arrow down"></span>' +
+    '            <span class="count">1</span>' +
+    '        </li>' +
+    '    </ul>' +
+    '</div>';
 
-        // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-        navigator.geolocation.getCurrentPosition(function(position) {
+// 커스텀 오버레이가 표시될 위치입니다
+var position = new kakao.maps.LatLng(37.49887, 127.026581);
 
-            var lat = position.coords.latitude, // 위도
-                lon = position.coords.longitude; // 경도
+// 커스텀 오버레이를 생성합니다
+var customOverlay = new kakao.maps.CustomOverlay({
+    position: position,
+    content: content,
+    xAnchor: 0.3,
+    yAnchor: 0.91
+});
 
-            var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-                message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
-
-            // 마커와 인포윈도우를 표시합니다
-            displayMarker(locPosition, message);
-
-        });
-
-    } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-
-        var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
-            message = 'geolocation을 사용할수 없어요..'
-
-        displayMarker(locPosition, message);
-    }
-
-    // 지도에 마커와 인포윈도우를 표시하는 함수입니다
-    function displayMarker(locPosition, message) {
-
-        // 마커를 생성합니다
-        var marker = new kakao.maps.Marker({
-            map: map,
-            position: locPosition
-        });
-
-        var iwContent = message, // 인포윈도우에 표시할 내용
-            iwRemoveable = true;
-
-        // 인포윈도우를 생성합니다
-        var infowindow = new kakao.maps.InfoWindow({
-            content : iwContent,
-            removable : iwRemoveable
-        });
-
-        // 인포윈도우를 마커위에 표시합니다
-        infowindow.open(map, marker);
-
-        // 지도 중심좌표를 접속위치로 변경합니다
-        map.setCenter(locPosition);
-    }
+// 커스텀 오버레이를 지도에 표시합니다
+customOverlay.setMap(map);
 </script>
 {% endblock %}

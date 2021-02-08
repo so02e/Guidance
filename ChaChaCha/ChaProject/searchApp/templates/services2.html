@@ -20,6 +20,7 @@
     table {
             table-layout: fixed;
             width: 100%;
+            background-color : #bbdefb;
             }
     .fontsize {
               font-size: 15px;
@@ -39,11 +40,12 @@
 
   <div class="col-xs-12 col-md-6">
             <table>
-                <tr><td width="20%">학원 이름</td><td id = 'name'  class = 'fontsize'></td></tr>
-                <tr><td width="20%">학원 위치</td><td id = 'location' class = 'fontsize'></td></tr>
+                <tr><td width="20%">학원명</td><td id = 'name'  class = 'fontsize'></td></tr>
+                <tr><td width="20%">위치</td><td id = 'location' class = 'fontsize'></td></tr>
                 <tr><td width="5%">1종 가격</td><td id = 'fee1' class = 'fontsize'></td></tr>
                 <tr><td width="5%">2종 가격</td><td id = 'fee2' class = 'fontsize'></td></tr>
                 <tr><td width="25%">홈페이지</td><td id = 'url' class = 'fontsize'></td></tr>
+                <tr><td width="25%">셔틀버스 정보</td><td id = 'bus' class = 'fontsize'></td></tr>
                 <tr><td width="25%">전화번호</td><td id = 'phone_number' class = 'fontsize'></td></tr>
             </table>
   </div>
@@ -53,6 +55,7 @@
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1cc2187c8717ffab77eb12ceab5806ae&libraries=services"></script>
 <script>
+
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
             center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -86,10 +89,12 @@
     }
 
 var geocoder = new kakao.maps.services.Geocoder();
-var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+// 이미지 변경
+var imageSrc = "/static/images/academymarker.png";
+
 
     // 마커 이미지의 이미지 크기 입니다
-    var imageSize = new kakao.maps.Size(24, 35);
+    var imageSize = new kakao.maps.Size(37, 45);
 
     // 마커 이미지를 생성합니다
     var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
@@ -116,7 +121,7 @@ var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerS
     // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
     kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
     kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-    kakao.maps.event.addListener(marker, 'click', clickevent('{{location.name}}','{{location.address_full}}','{{location.fee1}}','{{location.fee2}}','{{location.url}}','{{location.phone_number}}'));
+    kakao.maps.event.addListener(marker, 'click', clickevent('{{location.name}}','{{location.address_full}}','{{location.fee1}}','{{location.fee2}}','{{location.url}}','{{location.bus}}','{{location.phone_number}}'));
     }
     });
 
@@ -129,14 +134,15 @@ function makeOverListener(map, marker, infowindow) {
     };
 }
 
-// 가격 전화번호 추가해야 함
-function clickevent(name, address, fee1, fee2, url, phone_number) {
+// 클릭이벤트 수행시 학원명, 주소, 가격, 셔틀, 전화번호를 가져오는 함수입니다
+function clickevent(name, address, fee1, fee2, url, bus, phone_number) {
     return function(){
         document.getElementById('name').innerText = name
         document.getElementById('location').innerText = address
         document.getElementById('fee1').innerText = fee1
         document.getElementById('fee2').innerText = fee2
         document.getElementById('url').innerHTML = `<a href = '${url}' target='_blank'> 홈페이지 이동 </a>`
+        document.getElementById('bus').innerHTML = `<a href = '${bus}' target='_blank'> 셔틀버스 정보 확인 </a>`
         document.getElementById('phone_number').innerText = phone_number
         };
     }
@@ -159,6 +165,7 @@ function makeOutListener(infowindow) {
 
         var iwContent = message, // 인포윈도우에 표시할 내용
             iwRemoveable = true;
+
 
         // 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
