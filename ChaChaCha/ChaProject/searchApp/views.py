@@ -59,5 +59,9 @@ def services3(request) :
     ## thisUserMoments = mymoment.objects.filter(user=randomuserid, score__gte=4).order_by('-momentcreatedate', '-score')[0:4]
 # 지도 테스트 나중에 지우기
 def tt(request):
-    return render(request, 'tt.html', None)
+    mylocation = Academy.objects.all()
+    context = {
+        'Academy': mylocation,
+    }
+    return render(request, 'tt.html', context)
 

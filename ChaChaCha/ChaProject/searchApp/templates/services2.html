@@ -25,8 +25,6 @@
     .fontsize {
               font-size: 15px;
                 }
-    .fontsize>a { color: blue;
-                }
 
     .customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
     .customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
@@ -76,7 +74,6 @@
         navigator.geolocation.getCurrentPosition(function(position) {
             var lat = position.coords.latitude, // 위도
                 lon = position.coords.longitude; // 경도
-
             var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
                 message = '<div style="padding:5px;">현 위치</div>'; // 인포윈도우에 표시될 내용입니다
 
@@ -94,6 +91,7 @@
 
 var geocoder = new kakao.maps.services.Geocoder();
 // 이미지 변경
+
 var imageSrc = "/static/images/academymarker.png";
 
 
@@ -140,7 +138,6 @@ function makeOverListener(map, marker, infowindow) {
 }
 
 // 클릭이벤트 수행시 학원명, 주소, 가격, 셔틀, 전화번호를 가져오고 출력.
-// 홈페이지와 셔틀버스 이미지 크기 줄이기
 function clickevent(name, address, fee1, fee2, url, bus, phone_number) {
     return function(){
         document.getElementById('name').innerText = name
