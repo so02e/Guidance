@@ -1,16 +1,28 @@
 {% extends 'base.html' %}
 
 {% block headcontent %}
-<title>Title page</title>
+<title>학원 후기 목록</title>
 {% endblock %}
 
 {% block css %}
+  .b2{
+    border: 0;
+  }
+  .b2:hover{
+    background-color: #ff6360;
+    color : white;
+  }
 {% endblock %}
 
 {% block content %}
 {% load static %}
 
 {% if review %}
+<style>
+@import url('https://fonts.googleapis.com/css?family=Nanum+Brush+Script&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif+KR:200,300,400,500,600,700,900&display=swap');
+</style>
+
 <main class="" id="main-collapse">
   <div class="row">
     <div class="col-xs-8 section-container-spacer">
@@ -53,8 +65,8 @@
       <div class="alert alert-danger" role="alert">{{ msg }}</div>
       {% endif %}
       <br>
-      <button type="submit" value="Submit">수정완료</button>
-      <button type="reset" value="Reset">재작성</button>
+      <button class="b2" type="submit" value="Submit">수정완료</button>
+      <button class="b2" type="reset" value="Reset">재작성</button>
   </form>
 </main>
 {% endif %}
